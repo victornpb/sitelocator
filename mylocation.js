@@ -1,10 +1,12 @@
 var myLocation = function newfunction(){
 
+  this.handleNoGeolocation
+
+
   //try to use acurate positioning or use aproximated location using current ip
   this.requestCurrent = function(){
 
   }
-
 
 
   function myLocation() {
@@ -49,8 +51,3 @@ var myLocation = function newfunction(){
     map.setCenter(options.position);
   }
 }
-
-
-
-var washington = new google.maps.LatLng(47.6062,-122.3321);
-var berlin = new google.maps.LatLng(52.520816, 13.410186);

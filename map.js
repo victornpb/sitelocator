@@ -18,8 +18,6 @@ var mapController = new function ClassMapController(){
         self.element = document.getElementById('map-canvas');
 
         self.map = new google.maps.Map(self.element, mapOptions);
-
-        self.centerMapToBounds();
 	}
 
 	/** returns a position object of the given coordinates */
@@ -38,9 +36,6 @@ var mapController = new function ClassMapController(){
 
 		// Extend markerBounds with each random point.
     	markerBounds.extend(position);
-
-    	self.markers.push(marker);
-    	self.centerMapToBounds();
 
 		return marker;
 	}
@@ -71,35 +66,14 @@ var mapController = new function ClassMapController(){
 
 		//clear markerBounds
 		markerBounds = new google.maps.LatLngBounds();
-
-		self.centerMapToBounds(); //will show the entire world
 	}
 
 	/** adjust the map zoom and levelto fit all markers on the screen */
 	this.centerMapToBounds = function(){
-
-		if(self.markers.length>0){
-			console.log("centering to bounds")
-			self.map.fitBounds(markerBounds);
-			
-			//zoom for single marker
-			if(self.markers.length<2){
-				self.map.setZoom(3); console.log("setting zoom for single marker");
-			}
-
-		}
-		else{//no markers
-			//world wide zoom
-			self.map.setCenter(self.position(0,0));
-			self.map.setZoom(2);
-			console.log("no markers, show whole world");
-		}
+		self.map.fitBounds(markerBounds);
 	}
 
+
+
+
 }
-
-
-
-
-var washington = new google.maps.LatLng(47.6062,-122.3321);
-var berlin = new google.maps.LatLng(52.520816, 13.410186);
