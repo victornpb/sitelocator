@@ -7,17 +7,9 @@
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPZ7ccv9M8f0uIkZX0ydk7jTiaFIV997Q">
     </script>
+    <script type="text/javascript" src="map.js"></script>
     <script type="text/javascript">
-
-      function initialize() {
-        var mapOptions = {
-          center: { lat: -34.397, lng: 150.644},
-          zoom: 8
-        };
-        map = new google.maps.Map(document.getElementById('map-canvas'),
-            mapOptions);
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
+      google.maps.event.addDomListener(window, 'load', mapController.initialize);
     </script>
   </head>
   <body>
@@ -27,15 +19,13 @@
 </div>
 
 <div id="map-canvas"></div>
+
 <script type="text/javascript" src="geoip.js"></script>
 <script type="text/javascript" src="myip.js"></script>
 <script type="text/javascript" src="mylocation.js"></script>
 <script type="text/javascript">
 
-var map;
-var markers = [];
-var markerBounds = new google.maps.LatLngBounds();
-
+var washington = new google.maps.LatLng(47.6062,-122.3321);
 var berlin = new google.maps.LatLng(52.520816, 13.410186);
 
 var neighborhoods = [
@@ -44,67 +34,6 @@ var neighborhoods = [
   new google.maps.LatLng(52.497622, 13.396110),
   new google.maps.LatLng(52.517683, 13.394393)
 ];
-
-var washington = new google.maps.LatLng(47.6062,-122.3321);
-
-function drop() {
-  clearMarkers();
-  for (var i = 0; i < neighborhoods.length; i++) {
-    addMarkerWithTimeout(neighborhoods[i], i * 200);
-  }
-}
-
-function addMarkerWithTimeout(position, timeout, callback) {
-  window.setTimeout(function() {
-    markers.push(new google.maps.Marker({
-      position: position,
-      map: map,
-      animation: google.maps.Animation.DROP
-    }));
-
-    // Extend markerBounds with each random point.
-    markerBounds.extend(position);
-
-    if(typeof callback==="function") callback();
-
-  }, timeout);
-}
-
-function clearMarkers() {
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(null);
-  }
-  markers = [];
-
-  //clear markerBounds
-  markerBounds = new google.maps.LatLngBounds();
-}
-
-
-function centerMapToBounds(){
-   //method to set the map to fit markerBounds
-   map.fitBounds(markerBounds);
-}
-
-function createMarker(title, contentString, position){
-
-  var marker = new google.maps.Marker({
-      position: position,
-      map: map,
-      title: title,
-      animation: google.maps.Animation.DROP
-  });
-
-  if(contentString){
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
-
-    google.maps.event.addListener(marker, 'click', function() {
-      infowindow.open(map, marker);
-    });
-  }
-}
 
 </script>
   </body>
