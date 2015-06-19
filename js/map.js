@@ -20,6 +20,12 @@ var mapController = new function ClassMapController(){
         self.map = new google.maps.Map(self.element, mapOptions);
 	}
 
+	/** returns a position object of the given coordinates */
+	this.position = function(lat, lon){
+		return new google.maps.LatLng(lat, lon);
+	}
+
+	/** create a marker on the map */
 	this.createMarker = function(title, position){
 		var marker = new google.maps.Marker({
 		      position: position,
@@ -34,6 +40,7 @@ var mapController = new function ClassMapController(){
 		return marker;
 	}
 
+	/** create a marker on the map with a info window */
 	this.createMarkerWithInfoWindow = function(title, position, infoWindowHtml){
 		var marker = self.createMarker(title, position);
 
@@ -50,6 +57,7 @@ var mapController = new function ClassMapController(){
 		return marker;
 	}
 
+	/** clear all markers of the map */
 	this.clearMarkers = function(){
 		for (var i = 0; i < self.markers.length; i++) {
 			self.markers[i].setMap(null);
@@ -60,6 +68,7 @@ var mapController = new function ClassMapController(){
 		markerBounds = new google.maps.LatLngBounds();
 	}
 
+	/** adjust the map zoom and levelto fit all markers on the screen */
 	this.centerMapToBounds = function(){
 		self.map.fitBounds(markerBounds);
 	}
