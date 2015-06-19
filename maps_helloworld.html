@@ -25,6 +25,8 @@
 
 var map;
 var markers = [];
+var markerBounds = new google.maps.LatLngBounds();
+
 
 var berlin = new google.maps.LatLng(52.520816, 13.410186);
 
@@ -62,6 +64,10 @@ function addMarkerWithTimeout(position, timeout) {
       map: map,
       animation: google.maps.Animation.DROP
     }));
+
+    // Extend markerBounds with each random point.
+    markerBounds.extend(position);
+
   }, timeout);
 }
 
@@ -70,6 +76,15 @@ function clearMarkers() {
     markers[i].setMap(null);
   }
   markers = [];
+
+  //clear markerBounds
+  markerBounds = new google.maps.LatLngBounds();
+}
+
+
+function centerMapToBounds(){
+   //method to set the map to fit markerBounds
+   map.fitBounds(markerBounds);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
