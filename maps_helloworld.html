@@ -8,19 +8,26 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPZ7ccv9M8f0uIkZX0ydk7jTiaFIV997Q">
     </script>
     <script type="text/javascript">
+
       function initialize() {
         var mapOptions = {
           center: { lat: -34.397, lng: 150.644},
           zoom: 8
         };
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
+        map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
       }
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
   </head>
   <body>
+
+<div>
+  <button onclick="myLocation()">Where am I?</button>
+</div>
+
 <div id="map-canvas"></div>
+<script type="text/javascript" src="geolocation.js"></script>
 <script type="text/javascript">
 
 var map;
@@ -38,17 +45,6 @@ var neighborhoods = [
 ];
 
 var washington = new google.maps.LatLng(47.6062,-122.3321);
-
-
-function initialize() {
-  var mapOptions = {
-    zoom: 12,
-    center: berlin
-  };
-
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-          mapOptions);
-}
 
 function drop() {
   clearMarkers();
@@ -108,11 +104,6 @@ function createMarker(title, contentString, position){
     });
   }
 }
-
-
-
-
-google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
   </body>
