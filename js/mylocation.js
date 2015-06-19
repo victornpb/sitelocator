@@ -52,5 +52,3 @@ var myLocation = function newfunction(){
 
 
 
-var washington = new google.maps.LatLng(47.6062,-122.3321);
-var berlin = new google.maps.LatLng(52.520816, 13.410186);
