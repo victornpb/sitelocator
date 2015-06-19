@@ -57,7 +57,7 @@ function drop() {
   }
 }
 
-function addMarkerWithTimeout(position, timeout) {
+function addMarkerWithTimeout(position, timeout, callback) {
   window.setTimeout(function() {
     markers.push(new google.maps.Marker({
       position: position,
@@ -67,6 +67,8 @@ function addMarkerWithTimeout(position, timeout) {
 
     // Extend markerBounds with each random point.
     markerBounds.extend(position);
+
+    if(typeof callback==="function") callback();
 
   }, timeout);
 }
@@ -86,6 +88,29 @@ function centerMapToBounds(){
    //method to set the map to fit markerBounds
    map.fitBounds(markerBounds);
 }
+
+function createMarker(title, contentString, position){
+
+  var marker = new google.maps.Marker({
+      position: position,
+      map: map,
+      title: title,
+      animation: google.maps.Animation.DROP
+  });
+
+  if(contentString){
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+}
+
+
+
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
