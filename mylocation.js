@@ -12,7 +12,8 @@ function myLocation() {
         content: 'Location found using HTML5.'
       });
 
-      map.setCenter(pos);
+      //map.setCenter(pos);
+      
     }, function() {
       handleNoGeolocation(true);
     });
