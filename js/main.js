@@ -51,6 +51,8 @@ app.controller('SearchCtrl', function($scope, $http, $rootScope, $compile, $time
         var hostName = $scope.hostName;
         var json;
 
+        $scope.hostName = ""; //clear form
+
         //TODO: validate hostName
 
         //TODO: add user feedback
