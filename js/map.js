@@ -1,3 +1,9 @@
+/**
+ *  Google Maps abstraction
+ *  This class provides a simplified api with with some built-in behavior.
+*/
+
+
 var mapController = new function ClassMapController(){
 	
 	//private
@@ -43,15 +49,13 @@ var mapController = new function ClassMapController(){
 			}
 		}
 
-		debugger;;
-
 		var marker = new google.maps.Marker(markerOptions);
 
 		// Extend markerBounds with each random point.
     	markerBounds.extend(position);
 
-    	self.markers.push(marker);
-    	self.centerMapToBounds();
+    	self.markers.push(marker); //keep a list of markers
+    	self.centerMapToBounds(); //make sure the marker is visible on the canvas
 
 		return marker;
 	}
@@ -65,9 +69,13 @@ var mapController = new function ClassMapController(){
 		        content: infoWindowHtml
 		    });
 
-		    google.maps.event.addListener(marker, 'click', function() {
+		    var markerClickHandler = function() {
 		      infowindow.open(self.map, marker);
-		    });
+		    }
+
+		    google.maps.event.addListener(marker, 'click', markerClickHandler);
+
+		    if(options.autoOpen) markerClickHandler();
 		}
 
 		return marker;
@@ -126,7 +134,6 @@ var icon_markers = {
 	orange:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/orange.png",
 	arrow:"http://maps.google.com/mapfiles/arrow.png"
 }
-
 
 
 var washington = new google.maps.LatLng(47.6062,-122.3321);

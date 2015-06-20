@@ -36,10 +36,20 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 app.controller('SearchCtrl', function ($scope, $http /* $scope, $location, $http */) {
 
+	$scope.loading = false;
+
+
   $scope.performSearch = function() {
+
+  	  $scope.loading = true;
       
       var hostName = $scope.hostName;
-      console.log($scope.hostName);
+      
+      //TODO: validate hostName
+
+      //TODO: add user feedback
+
+      //TODO: add error handling
 
       var requestUrl = "http://freegeoip.net/json/"+hostName;
 
@@ -53,7 +63,9 @@ app.controller('SearchCtrl', function ($scope, $http /* $scope, $location, $http
 
 
             var location = mapController.position(point.lat, point.lon);
-            mapController.createMarkerWithInfoWindow(hostName, location, "DETAILS TEMPLATE");
+            mapController.createMarkerWithInfoWindow(hostName, location, "DETAILS TEMPLATE", {"autoOpen":true});
+
+            $scope.loading = false;
 	  });
 
   };
@@ -64,8 +76,11 @@ app.controller('SearchCtrl', function ($scope, $http /* $scope, $location, $http
 
 app.controller('MenuCtrl', function ($scope, $http /* $scope, $location, $http */) {
   
+  $scope.loading = false;
 
   $scope.myLocation = function() {
+
+  	$scope.loading = true;
       
       var ip;
       var requestUrl = "https://api.ipify.org?format=json";
@@ -81,6 +96,8 @@ app.controller('MenuCtrl', function ($scope, $http /* $scope, $location, $http *
 	  		var requestUrl = "http://freegeoip.net/json/"+ip;
 
 	      $http.get(requestUrl).then(function(response) {
+	      		$scope.loading = false;
+
 	            console.log(response);
 
 	            var point = {
