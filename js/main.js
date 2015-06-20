@@ -106,7 +106,7 @@ app.controller('MenuCtrl', function ($scope, $http /* $scope, $location, $http *
 	            }
 
 	            var location = mapController.position(point.lat, point.lon);
-	            mapController.createMarkerWithInfoWindow("Your location", location, "YOUR LOCATION. DETAILS TEMPLATE", {"icon":"arrow"});
+	            mapController.createMarkerWithInfoWindow("Your location", location, "YOUR LOCATION. DETAILS TEMPLATE", {"icon":"arrow", "autoOpen":true});
 		  });
 
 	  });
