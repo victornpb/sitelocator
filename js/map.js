@@ -28,13 +28,24 @@ var mapController = new function ClassMapController(){
 	}
 
 	/** create a marker on the map */
-	this.createMarker = function(title, position){
-		var marker = new google.maps.Marker({
+	this.createMarker = function(title, position, options){
+
+		var markerOptions = {
 		      position: position,
 		      map: self.map,
 		      title: title,
 		      animation: google.maps.Animation.DROP
-		});
+		}
+
+		if(options){
+			if(options.icon){
+				markerOptions.icon = icon_markers[options.icon];
+			}
+		}
+
+		debugger;;
+
+		var marker = new google.maps.Marker(markerOptions);
 
 		// Extend markerBounds with each random point.
     	markerBounds.extend(position);
@@ -46,8 +57,8 @@ var mapController = new function ClassMapController(){
 	}
 
 	/** create a marker on the map with a info window */
-	this.createMarkerWithInfoWindow = function(title, position, infoWindowHtml){
-		var marker = self.createMarker(title, position);
+	this.createMarkerWithInfoWindow = function(title, position, infoWindowHtml, options){
+		var marker = self.createMarker(title, position, options);
 
 		if(infoWindowHtml){
 		    var infowindow = new google.maps.InfoWindow({
@@ -61,6 +72,7 @@ var mapController = new function ClassMapController(){
 
 		return marker;
 	}
+
 
 	/** clear all markers of the map */
 	this.clearMarkers = function(){
@@ -98,6 +110,22 @@ var mapController = new function ClassMapController(){
 
 }
 
+
+var icon_markers = {
+	purple:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple-dot.png",
+	yellow:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/yellow-dot.png",
+	blue:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png",
+	green:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png",
+	red:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png",
+	orange:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/orange-dot.png",
+	purple:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png",
+	yellow:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/yellow.png",
+	green:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/blue.png",
+	green:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/green.png",
+	red:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/red.png",
+	orange:"http://maps.google.com/intl/en_us/mapfiles/ms/micons/orange.png",
+	arrow:"http://maps.google.com/mapfiles/arrow.png"
+}
 
 
 
