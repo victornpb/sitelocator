@@ -74,7 +74,7 @@
 
                                 <form class="form-group" role="search" ng-controller="SearchCtrl" ng-submit="performSearch()" ng-disabled="loading">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="e.g. www.google.com" autofocus ng-model="hostName" ng-disabled="loading">
+                                        <input type="text" class="form-control" placeholder="{{loading ? 'Loading...' : 'e.g. www.google.com'}}" autofocus ng-model="hostName" ng-disabled="loading">
                                         <div class="input-group-btn">
                                             <button type="submit" class="btn btn-default" ng-disabled="loading">
                                                 <i class="glyphicon glyphicon-screenshot" ng-if="!loading"></i>
