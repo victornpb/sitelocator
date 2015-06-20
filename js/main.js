@@ -8,6 +8,8 @@
  */
 var app = angular.module('webApp', [
 
+
+
 ]);
 
 /**
@@ -34,9 +36,13 @@ app.config(['$routeProvider', function ($routeProvider) {
 */
 
 
-app.controller('SearchCtrl', function ($scope, $http /* $scope, $location, $http */) {
+app.controller('SearchCtrl', function ($scope, $http, $rootScope, $compile, $timeout  /* $scope, $location, $http */) {
 
 	$scope.loading = false;
+
+	$http.get('markerDetails.html').then(function(response) {
+        $scope.infoWindowTemplate = response.data;
+    });
 
 
   $scope.performSearch = function() {
@@ -44,6 +50,7 @@ app.controller('SearchCtrl', function ($scope, $http /* $scope, $location, $http
   	  $scope.loading = true;
       
       var hostName = $scope.hostName;
+      var json;
       
       //TODO: validate hostName
 
@@ -54,18 +61,43 @@ app.controller('SearchCtrl', function ($scope, $http /* $scope, $location, $http
       var requestUrl = "http://freegeoip.net/json/"+hostName;
 
       $http.get(requestUrl).then(function(response) {
-            console.log(response);
+      		$scope.loading = false;
+
+            json = response.data;
 
             var point = {
-            	lat: response.data.latitude,
-            	lon: response.data.longitude
+            	lat: json.latitude,
+            	lon: json.longitude
             }
 
+            //Template infoWindow
+			var $scope1 = $rootScope.$new();
+			
+			$scope1.hostName = hostName;
+			$scope1.ip = json.ip;
+			$scope1.country_name = json.country_name;
+			$scope1.country_code = json.country_code;
+			$scope1.region_name = json.region_name;
+			$scope1.region_code = json.region_code;
+			$scope1.city = json.city;
+			$scope1.zipcode = json.zipcode;
+			$scope1.latitude = json.latitude;
+			$scope1.longitude = json.longitude;
+			$scope1.metro_code = json.metro_code;
+			$scope1.area_code = json.area_code;
+			
+			$el = $compile($scope.infoWindowTemplate)($scope1);
+			$scope1.$apply();
+			var compiledHTML = $el.html();
+
+			console.log(compiledHTML);
+
+			debugger;;
 
             var location = mapController.position(point.lat, point.lon);
-            mapController.createMarkerWithInfoWindow(hostName, location, "DETAILS TEMPLATE", {"autoOpen":true});
+            mapController.createMarkerWithInfoWindow(hostName, location, compiledHTML, {"autoOpen":true});
+			
 
-            $scope.loading = false;
 	  });
 
   };
