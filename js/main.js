@@ -92,6 +92,7 @@ app.controller('SearchCtrl', function($scope, $http, $rootScope, $compile, $time
 
 app.controller('MenuCtrl', function($scope, $http, $rootScope, $compile, $timeout /* $scope, $location, $http */ ) {
 
+    $scope.showingMyLocation = false;
     $scope.loading = false;
 
     $http.get('markerDetailsMyLocation.html').then(function(response) {
@@ -105,6 +106,7 @@ app.controller('MenuCtrl', function($scope, $http, $rootScope, $compile, $timeou
         var requestUrl = "http://ip-api.com/json/";
 
         $http.get(requestUrl).then(function(response) {
+            $scope.showingMyLocation = true;
             $scope.loading = false;
 
             var json = response.data;
@@ -130,10 +132,17 @@ app.controller('MenuCtrl', function($scope, $http, $rootScope, $compile, $timeou
 
     };
 
+    /* clear mylocation marker */
+    $scope.myLocationReset = function() {
+        $scope.showingMyLocation = false;
+        mapController.removeMarker("Your location");
+
+    };
+
+    /** clear all markers */
     $scope.clear = function() {
-
+        $scope.showingMyLocation = false;
         mapController.clearMarkers();
-
     };
 
 

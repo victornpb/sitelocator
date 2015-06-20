@@ -96,6 +96,25 @@ var mapController = new function ClassMapController() {
         self.centerMapToBounds(); //will show the entire world
     }
 
+    /** cremove a marker */
+    this.removeMarker = function(title) {
+
+    	//clear markerBounds
+    	markerBounds = new google.maps.LatLngBounds();
+
+        for (var i = 0; i < self.markers.length; i++) {
+        	if(self.markers[i].title==title){
+            	self.markers[i].setMap(null);
+            	self.markers.splice(i,1);
+        	}
+        	else{
+        		markerBounds.extend(self.markers[i].position);
+        	}
+        }
+
+        self.centerMapToBounds(); //will show the entire world
+    }
+
     /** adjust the map zoom and levelto fit all markers on the screen */
     this.centerMapToBounds = function() {
 
@@ -105,6 +124,7 @@ var mapController = new function ClassMapController() {
 
             //zoom for single marker
             if (self.markers.length < 2) {
+            	self.map.setCenter(self.markers[0].position);
                 self.map.setZoom(3);
                 console.log("setting zoom for single marker");
             }

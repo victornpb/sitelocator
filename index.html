@@ -91,11 +91,18 @@
 
                             <ul class="nav navbar-nav navbar-right" ng-controller="MenuCtrl">
                                 <li id="forums-button">
-                                    <button class="btn btn-link" ng-click="myLocation()" ng-disabled="loading">
+                                    <button class="btn btn-link" ng-click="myLocation()" ng-disabled="loading" ng-if="!showingMyLocation">
                                         <i class="glyphicon glyphicon-map-marker" ng-if="!loading"></i>
                                         <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" ng-if="loading"></i> Show my location
                                     </button>
+
+                                    <button class="btn btn-link" ng-click="myLocationReset()" ng-disabled="loading" ng-if="showingMyLocation">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                        Reset my location
+                                    </button>
+
                                 </li>
+
                                 <li id="forums-button">
                                     <button class="btn btn-link" ng-click="clear()">
                                         <i class="glyphicon glyphicon-remove"></i> Clear Map</button>
