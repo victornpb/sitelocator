@@ -33,11 +33,8 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 */
 
-/**
- * Controls the Blog
- */
+
 app.controller('SearchCtrl', function ($scope, $http /* $scope, $location, $http */) {
-  console.log("Blog Controller reporting for duty.");
 
   $scope.performSearch = function() {
       
@@ -63,4 +60,51 @@ app.controller('SearchCtrl', function ($scope, $http /* $scope, $location, $http
 
    
 });
+
+
+app.controller('MenuCtrl', function ($scope, $http /* $scope, $location, $http */) {
+  
+
+  $scope.myLocation = function() {
+      
+      var ip;
+      var requestUrl = "https://api.ipify.org?format=json";
+
+      $http.get(requestUrl).then(function(response) {
+            console.log(response);
+
+            ip = response.data.ip;
+
+           
+	  }).then(function(){
+
+	  		var requestUrl = "http://freegeoip.net/json/"+ip;
+
+	      $http.get(requestUrl).then(function(response) {
+	            console.log(response);
+
+	            var point = {
+	            	lat: response.data.latitude,
+	            	lon: response.data.longitude
+	            }
+
+	            var location = mapController.position(point.lat, point.lon);
+	            mapController.createMarkerWithInfoWindow("Your location", location, "YOUR LOCATION. DETAILS TEMPLATE", {"icon":"arrow"});
+		  });
+
+	  });
+
+  };
+
+  $scope.clear = function() {
+      
+     mapController.clearMarkers();
+
+  };
+
+   
+});
+
+
+
 
