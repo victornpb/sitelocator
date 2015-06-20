@@ -48,7 +48,7 @@
 			}
 			/* full */
 			@media (min-width: 768px) {
-				.fill{ top: 190px;}
+				.fill{ top: 132px;}
 			}
 
 			.navbar {
@@ -126,11 +126,11 @@
             <a class="navbar-brand" href="#">Where's this site located?</a>
           </div>
           
-          <form class="form-group" role="search" ng-controller="SearchCtrl" ng-submit="performSearch()">
+          <form class="form-group" role="search" ng-controller="SearchCtrl" ng-submit="performSearch()" ng-disabled="loading">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="e.g. www.google.com" autofocus ng-model="hostName">
+              <input type="text" class="form-control" placeholder="e.g. www.google.com" autofocus ng-model="hostName" ng-disabled="loading">
               <div class="input-group-btn">
-                <button type="submit" class="btn btn-default">
+                <button type="submit" class="btn btn-default" ng-disabled="loading">
 	                <i class="glyphicon glyphicon-screenshot" ng-if="!loading"></i>
 	                <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" ng-if="loading"></i>
 	                Locate
@@ -143,16 +143,19 @@
         </div>
 
         <div class="collapse navbar-collapse">
-            <hr>
+           
             <ul class="nav navbar-nav navbar-right" ng-controller="MenuCtrl">
                 <li id="forums-button">
-                <a href="#" ng-click="myLocation()">
-	                <i class="glyphicon glyphicon-map-marker" ng-if="!loading"></i>
-	                <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" ng-if="loading"></i>
-	                Show my location
-                </a>
+                    <button class="btn btn-link" ng-click="myLocation()" ng-disabled="loading">
+    	                <i class="glyphicon glyphicon-map-marker" ng-if="!loading"></i>
+    	                <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" ng-if="loading"></i>
+    	                Show my location
+                    </button>
                 </li>
-                <li id="forums-button"><a href="#" ng-click="clear()"><i class="glyphicon glyphicon-remove"></i> Clear</a></li>
+                <li id="forums-button">
+                    <button class="btn btn-link" ng-click="clear()">
+                    <i class="glyphicon glyphicon-remove"></i> Clear Map</button>
+                </li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
