@@ -5,13 +5,9 @@
 /**
  * Main AngularJS Web Application
  */
-var app = angular.module('webApp', [
+var app = angular.module('webApp', []);
 
-
-
-]);
-
-
+//Search field controller
 app.controller('SearchCtrl', function($scope, $http, $rootScope, $compile, $timeout /* $scope, $location, $http */ ) {
 
     $scope.loading = false;
@@ -62,7 +58,7 @@ app.controller('SearchCtrl', function($scope, $http, $rootScope, $compile, $time
 
 });
 
-
+//Menu controller
 app.controller('MenuCtrl', function($scope, $http, $rootScope, $compile, $timeout /* $scope, $location, $http */ ) {
 
     $scope.showingMyLocation = false;
