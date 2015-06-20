@@ -29,6 +29,18 @@ var mapController = new function ClassMapController() {
         self.centerMapToBounds();
     }
 
+    function verifyDuplicatedMark(title){
+    	for (var i = 0; i < self.markers.length; i++) {
+        	if(self.markers[i].title==title){
+            	
+            	
+        		return self.markers[i];
+        	}
+        }
+        return false; //unique
+    }
+
+
     /** returns a position object of the given coordinates */
     this.position = function(lat, lon) {
         return new google.maps.LatLng(lat, lon);
@@ -36,6 +48,9 @@ var mapController = new function ClassMapController() {
 
     /** create a marker on the map */
     this.createMarker = function(title, position, options) {
+
+    	if(verifyDuplicatedMark(title)) return;
+
 
         var markerOptions = {
             position: position,
