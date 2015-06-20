@@ -36,13 +36,28 @@ app.config(['$routeProvider', function ($routeProvider) {
 /**
  * Controls the Blog
  */
-app.controller('SearchCtrl', function ($scope /* $scope, $location, $http */) {
+app.controller('SearchCtrl', function ($scope, $http /* $scope, $location, $http */) {
   console.log("Blog Controller reporting for duty.");
 
   $scope.performSearch = function() {
-         
-          console.log($scope.hostName);
-          
+      
+      var hostName = $scope.hostName;
+      console.log($scope.hostName);
+
+      var requestUrl = "http://freegeoip.net/json/"+hostName;
+
+      $http.get(requestUrl).then(function(response) {
+            console.log(response);
+
+            var point = {
+            	lat: response.data.latitude,
+            	lon: response.data.longitude
+            }
+
+
+            var location = mapController.position(point.lat, point.lon);
+            mapController.createMarkerWithInfoWindow(hostName, location, "DETAILS TEMPLATE");
+	  });
 
   };
 
