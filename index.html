@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>
+    <title>Where's this site located?</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -38,7 +38,8 @@
     google.maps.event.addDomListener(window, 'load', mapController.initialize);
     </script>
 
-
+    <script type="text/javascript" src="markerDetails.js"></script>
+    <script type="text/javascript" src="markerDetailsMyLocation.js"></script>
 
 </head>
 
@@ -47,16 +48,7 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">My App</a>
+
                 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
                     <div class="container">
                         <div class="navbar-header">
@@ -112,24 +104,74 @@
                         <!--/.nav-collapse -->
                     </div>
                 </div>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li id="forums-button"><a href="#">Forums</a></li>
-                </ul>
-            </div>
-            <!--/.nav-collapse -->
-        </div>
-    </div>
 
 
-
+    
 
     <div class="container fill">
         <div id="map-canvas"></div>
     </div>
 
+    <div class="renderedTemplate"></div>
+    <div id="invalidHostAlert" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Invalid Host Name</h4>
+          </div>
+          <div class="modal-body">
+            <p>e.g., "www.nytimes.com", "nytimes.com" or "g1.com.br" or "www.g1.com.br".</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
+
+    <div id="error404Alert" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"The host name does not exist</h4>
+          </div>
+          <div class="modal-body">
+            <p>The webservice returned an error!</p>
+            <hr>
+            <p>Probable causer are:</p>
+            <p>- The requested host does not exist</p>
+            <p>- The webservice or connection may be unavaliable</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>  
+
+    <div id="errorMyLocationAlert" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"The host name does not exist</h4>
+          </div>
+          <div class="modal-body">
+            <p>The webservice returned an error!</p>
+            <hr>
+            <p>Probable causer are:</p>
+            <p>- The requested host does not exist</p>
+            <p>- The webservice or connection may be unavaliable</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div> 
 
     <!-- /container -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

@@ -11,38 +11,10 @@ var app = angular.module('webApp', [
 
 ]);
 
-/**
- * Configure the Routes
- */
-/*
-app.config(['$routeProvider', function ($routeProvider) {
-  $routeProvider
-    // Home
-    .when("/", {templateUrl: "partials/home.html", controller: "PageCtrl"})
-    // Pages
-    .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
-    .when("/faq", {templateUrl: "partials/faq.html", controller: "PageCtrl"})
-    .when("/pricing", {templateUrl: "partials/pricing.html", controller: "PageCtrl"})
-    .when("/services", {templateUrl: "partials/services.html", controller: "PageCtrl"})
-    .when("/contact", {templateUrl: "partials/contact.html", controller: "PageCtrl"})
-    // Blog
-    .when("/blog", {templateUrl: "partials/blog.html", controller: "BlogCtrl"})
-    .when("/blog/post", {templateUrl: "partials/blog_item.html", controller: "BlogCtrl"})
-    // else 404
-    .otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"});
-}]);
-
-*/
-
 
 app.controller('SearchCtrl', function($scope, $http, $rootScope, $compile, $timeout /* $scope, $location, $http */ ) {
 
     $scope.loading = false;
-
-    $http.get('markerDetails.html').then(function(response) {
-        $scope.infoWindowTemplate = response.data;
-    });
-
 
     $scope.performSearch = function() {
 
@@ -53,35 +25,36 @@ app.controller('SearchCtrl', function($scope, $http, $rootScope, $compile, $time
 
         $scope.hostName = ""; //clear form
 
-        //TODO: validate hostName
+        hostName = validateHostName(hostName);
+        //console.log(hostName);
 
-        //TODO: add user feedback
+        if(!hostName){
+            $scope.loading = false;
+            $("#invalidHostAlert").modal("show");
+            return;
+        }
 
-        //TODO: add error handling
+        var requestUrl = "http://freegeoip.net/json/"+hostName;
 
-        var requestUrl = "http://freegeoip.net/json/" + hostName;
-
-        $http.get(requestUrl).then(function(response) {
+        $http.get(requestUrl)
+        .then(function(response) {
             $scope.loading = false;
 
             json = response.data;
+            json.hostName = hostName;
 
             //Template infoWindow
-            var $infoScope = $rootScope.$new();
-
-            $infoScope.geo = json;
-            $infoScope.geo.hostName = hostName;
-
-            $el = $compile($scope.infoWindowTemplate)($infoScope);
-            $infoScope.$apply();
-            var compiledHTML = $el.html();
+            var infoContent = markerDetails(json);
 
             var location = mapController.position(json.latitude, json.longitude);
-            mapController.createMarkerWithInfoWindow(hostName, location, compiledHTML, {
+            mapController.createMarkerWithInfoWindow(hostName, location, infoContent, {
                 "autoOpen": true
             });
 
-
+        })
+        .catch(function(data, status){
+            $scope.loading = false;
+            $("#error404Alert").modal("show");
         });
 
     };
@@ -95,39 +68,32 @@ app.controller('MenuCtrl', function($scope, $http, $rootScope, $compile, $timeou
     $scope.showingMyLocation = false;
     $scope.loading = false;
 
-    $http.get('markerDetailsMyLocation.html').then(function(response) {
-        $scope.infoWindowTemplate = response.data;
-    });
-
     $scope.myLocation = function() {
 
         $scope.loading = true;
 
         var requestUrl = "http://ip-api.com/json/";
 
-        $http.get(requestUrl).then(function(response) {
+        $http.get(requestUrl)
+        .then(function(response) {
             $scope.showingMyLocation = true;
             $scope.loading = false;
 
             var json = response.data;
 
             //Template infoWindow
-            var $infoScope = $rootScope.$new();
-
-            $infoScope.hostName = "Your aproximated location";
-            $infoScope.geo = json;
-
-            $el = $compile($scope.infoWindowTemplate)($infoScope);
-            $infoScope.$apply();
-            var compiledHTML = $el.html();
+            var infoContent = markerDetailsMyLocation(json);
 
             var location = mapController.position(json.lat, json.lon);
-            mapController.createMarkerWithInfoWindow("Your location", location, compiledHTML, {
+            mapController.createMarkerWithInfoWindow("Your location", location, infoContent, {
                 "icon": "arrow",
                 "autoOpen": true
             });
-
-
+        })
+        .catch(function(data, status){
+            $scope.showingMyLocation = false;
+            $scope.loading = false;
+            $("#errorMyLocationAlert").modal("show");
         });
 
     };
@@ -147,3 +113,21 @@ app.controller('MenuCtrl', function($scope, $http, $rootScope, $compile, $timeou
 
 
 });
+
+
+
+/**
+* Validate hostnames
+* it removes the http://
+* returns empty string in fail cases
+*/
+function validateHostName(hostName){
+    var myregexp = /^(?:https?:\/\/)?([^\/?#\s]{2,}\.[^\/?#\s]{2,})/;
+    var match = myregexp.exec(hostName);
+    if (match != null) {
+        result = match[1];
+    } else {
+        result = "";
+    }
+    return result;
+}
